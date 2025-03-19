@@ -5,14 +5,25 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'black',
         headerShown: false,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: '홈',
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: '검색',
+        }}
+      />
+      <Tabs.Screen
+        name="library"
+        options={{
+          title: '내 라이브러리',
         }}
       />
     </Tabs>

@@ -1,5 +1,9 @@
-import { View } from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
 
 export default function HomeScreen() {
-  return <View></View>;
+  return (
+    <SafeAreaView>
+      <Text>홈 스크린</Text>
+    </SafeAreaView>
+  );
 }
