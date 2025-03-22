@@ -15,6 +15,7 @@ import getPopularArtists from '@/api/getPopularArtists';
 import Album from '@/components/Album';
 import Artist from '@/components/Artist';
 import Divider from '@/components/Divider';
+import getNewAddedAlbums from '@/api/getNewAddedAlbums';
 
 const clientId = 'b54da5a5b1c0451fba594d39b1d534a7';
 const clientSecret = 'cc04d4fbfb224787985ece68c7a964c9';
@@ -24,6 +25,7 @@ export default function HomeScreen() {
   const [isloading, setIsLoading] = useState(true);
   const [newAlbums, setNewAlbums] = useState<AlbumData[]>([]);
   const [popularArtists, setPopularArtists] = useState<ArtistData[]>([]);
+  const [newAddedAlbums, setNewAddedAlbums] = useState<AlbumData[]>([]);
 
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -42,8 +44,10 @@ export default function HomeScreen() {
         try {
           const albums = await getNewReleasedAlbums(accessToken);
           const artists = await getPopularArtists(accessToken);
+          const addedAlbums = await getNewAddedAlbums(accessToken);
           setNewAlbums(albums);
           setPopularArtists(artists);
+          setNewAddedAlbums(addedAlbums);
         } catch (error) {
           console.error(error);
         } finally {
@@ -58,6 +62,7 @@ export default function HomeScreen() {
   }, [accessToken]);
 
   console.log(accessToken);
+  console.log(newAddedAlbums);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -85,6 +90,16 @@ export default function HomeScreen() {
         />
       </View>
       <Divider />
+      <View>
+        <Text style={styles.title}>새로 추가된 앨범</Text>
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={newAddedAlbums}
+          renderItem={({ item }) => <Album {...item} />}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
     </SafeAreaView>
   );
 }
