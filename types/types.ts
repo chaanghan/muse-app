@@ -5,20 +5,25 @@ interface RequestToken {
 interface Image {
   width: number;
   height: number;
-  uri?: string;
+  url: string;
 }
-
-interface Artist {
+interface Followers {
+  total: number;
+}
+interface ArtistData {
   id: string;
   name: string;
   type: string;
   uri?: string;
+  followers: Followers;
+  popularity: number;
+  images: Image[];
 }
-interface Album {
+interface AlbumData {
   id: string;
   name: string;
   images: Image[];
-  artists: Artist[];
+  artists: ArtistData[];
   release_date: string;
   total_tracks?: number;
   album_type?: string;
@@ -36,4 +41,4 @@ interface ExternalUrls {
 interface Market {
   available_markets: string[];
 }
-export type { Image, Artist, Album, RequestToken };
+export type { Image, ArtistData, AlbumData, RequestToken };

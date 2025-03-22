@@ -1,34 +1,33 @@
-import { Album } from '@/types/types';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ArtistData } from '@/types/types';
+import { Image, Pressable, StyleSheet, Text } from 'react-native';
 
-export default function Artist({
-  id,
-  name,
-  images,
-  artists,
-  release_date,
-}: Album) {
+export default function Artist({ name, images }: ArtistData) {
   return (
     <Pressable style={styles.container}>
-      <Image source={images[0]} style={styles.albumImage} />
-      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.albumName}>
+      <Image source={{ uri: images[2].url }} style={styles.artistImage} />
+      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.artistName}>
         {name}
       </Text>
     </Pressable>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     gap: 10,
     marginHorizontal: 12,
   },
-  albumImage: {
+  artistImage: {
     width: 140,
     height: 140,
     borderRadius: 140,
   },
   albumName: {
     width: 140,
+    fontSize: 16,
+  },
+  artistName: {
+    fontSize: 16,
     textAlign: 'center',
   },
 });
