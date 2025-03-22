@@ -5,6 +5,6 @@ export default function Divider() {
 }
 const styles = StyleSheet.create({
   divider: {
-    marginVertical: 10,
+    marginVertical: 12,
   },
 });

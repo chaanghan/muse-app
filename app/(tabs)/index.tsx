@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   FlatList,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -66,40 +67,42 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.newAlbumContainer}>
-        <Text style={styles.title}>새로운 앨범</Text>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={newAlbums}
-          renderItem={({ item }) => <Album {...item} />}
-          keyExtractor={(item) => item.id}
-          style={styles.albumList}
-        />
-      </View>
-      <Divider />
-      <View>
-        <Text style={styles.title}>인기 아티스트</Text>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={popularArtists.sort((a, b) => a.popularity - b.popularity)}
-          renderItem={({ item }) => <Artist {...item} />}
-          keyExtractor={(item) => item.id}
-          style={styles.artistList}
-        />
-      </View>
-      <Divider />
-      <View>
-        <Text style={styles.title}>새로 추가된 앨범</Text>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={newAddedAlbums}
-          renderItem={({ item }) => <Album {...item} />}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.newAlbumContainer}>
+          <Text style={styles.title}>새로운 앨범</Text>
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={newAlbums}
+            renderItem={({ item }) => <Album {...item} />}
+            keyExtractor={(item) => item.id}
+            style={styles.albumList}
+          />
+        </View>
+        <Divider />
+        <View>
+          <Text style={styles.title}>인기 아티스트</Text>
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={popularArtists.sort((a, b) => a.popularity - b.popularity)}
+            renderItem={({ item }) => <Artist {...item} />}
+            keyExtractor={(item) => item.id}
+            style={styles.artistList}
+          />
+        </View>
+        <Divider />
+        <View>
+          <Text style={styles.title}>새로 추가된 앨범</Text>
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={newAddedAlbums}
+            renderItem={({ item }) => <Album {...item} />}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
