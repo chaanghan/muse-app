@@ -1,7 +1,6 @@
 import getAceessToken from '@/api/getAccessToken';
 import { useEffect, useState } from 'react';
 import {
-  ActivityIndicator,
   FlatList,
   SafeAreaView,
   ScrollView,
@@ -9,7 +8,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AlbumData, ArtistData } from '@/types/types';
 import getNewReleasedAlbums from '@/api/getNewReleasedAlbums';
 import getPopularArtists from '@/api/getPopularArtists';
@@ -63,7 +61,6 @@ export default function HomeScreen() {
   }, [accessToken]);
 
   console.log(accessToken);
-  console.log(newAddedAlbums);
 
   return (
     <SafeAreaView style={styles.container}>
