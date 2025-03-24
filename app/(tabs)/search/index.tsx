@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, SafeAreaView, TextInput, View } from 'react-native';
 import Octicons from '@expo/vector-icons/Octicons';
 import { colors } from '@/constants/colors';
+import { router } from 'expo-router';
+
 function SearchScreen() {
   const [keyword, setKeyword] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -15,7 +17,9 @@ function SearchScreen() {
   const onBlur = () => {
     setIsFocused(false);
   };
-
+  const onSubmit = () => {
+    router.push(`/search/${keyword}`);
+  };
   console.log(keyword);
 
   return (
@@ -31,6 +35,8 @@ function SearchScreen() {
           placeholder={isFocused ? '' : '어떤 음악을 듣고 싶어?'}
           onFocus={onFocus}
           onBlur={onBlur}
+          returnKeyType="search"
+          onSubmitEditing={onSubmit}
         />
       </View>
     </SafeAreaView>
@@ -52,6 +58,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 16,
     height: 45,
+    flex: 1,
   },
   inputFocusContainer: {
     borderWidth: 2,

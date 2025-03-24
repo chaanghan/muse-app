@@ -27,12 +27,24 @@ interface AlbumData {
   release_date: string;
   total_tracks?: number;
   album_type?: string;
-  available_markets?: Market;
-  external_urls?: ExternalUrls;
-  href?: string;
+  available_markets: Market;
+  external_urls: ExternalUrls;
+  href: string;
   release_date_precision?: string;
-  type?: string;
+  type: string;
   uri?: string;
+}
+interface TrackData {
+  album?: AlbumData;
+  artists: ArtistData[];
+  images: Image[];
+  disc_number?: number;
+  duration_ms?: number;
+  id: number;
+  name: string;
+  popularity?: number;
+  track_number?: number;
+  type: string;
 }
 
 interface ExternalUrls {
@@ -41,4 +53,4 @@ interface ExternalUrls {
 interface Market {
   available_markets: string[];
 }
-export type { Image, ArtistData, AlbumData, RequestToken };
+export type { Image, TrackData, ArtistData, AlbumData, RequestToken };

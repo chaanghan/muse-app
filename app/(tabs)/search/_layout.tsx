@@ -14,6 +14,12 @@ export default function SearchLayout() {
           title: '검색',
         }}
       />
+      <Stack.Screen
+        name="result"
+        options={{
+          title: '검색 결과',
+        }}
+      />
     </Stack>
   );
 }
