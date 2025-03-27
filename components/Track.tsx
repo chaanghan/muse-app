@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import { TrackData } from '@/types/types';
+import { SearchNewAlbumData } from '@/types/types';
 import {
   Dimensions,
   Image,
@@ -9,7 +9,12 @@ import {
   View,
 } from 'react-native';
 
-export default function Track({ artists, id, images, name }: TrackData) {
+export default function Track({
+  artists,
+  id,
+  images,
+  name,
+}: SearchNewAlbumData) {
   console.log(images[0].url);
 
   return (

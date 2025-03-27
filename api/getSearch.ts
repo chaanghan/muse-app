@@ -13,6 +13,7 @@ async function getSearch(accessToken: string, query: string) {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    console.log(data.data.tracks.items);
 
     return data.data.tracks.items;
   } catch (error) {

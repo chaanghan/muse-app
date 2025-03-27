@@ -10,47 +10,52 @@ interface Image {
 interface Followers {
   total: number;
 }
-interface ArtistData {
-  id: string;
-  name: string;
-  type: string;
-  uri?: string;
+interface SearchKpopArtistData {
   followers: Followers;
-  popularity: number;
+  id: string;
   images: Image[];
+  name: string;
+  popularity: number;
+  type: string;
+  uri: string;
 }
-interface AlbumData {
+interface SearchNewAlbumData {
+  album_type: string;
+  total_tracks: number;
+  id: string;
+  images: Image[];
+  name: string;
+  release_date: string;
+  release_date_precision: string;
+  type: string;
+  uri: string;
+  artists: Artist[];
+}
+interface NewReleaseAlbumData extends SearchNewAlbumData {}
+
+interface Artist {
   id: string;
   name: string;
-  images: Image[];
-  artists: ArtistData[];
-  release_date: string;
-  total_tracks?: number;
-  album_type?: string;
-  available_markets: Market;
-  external_urls: ExternalUrls;
-  href: string;
-  release_date_precision?: string;
   type: string;
-  uri?: string;
 }
-interface TrackData {
-  album?: AlbumData;
-  artists: ArtistData[];
-  images: Image[];
-  disc_number?: number;
-  duration_ms?: number;
-  id: number;
+interface SearchKeywordTrackData {
+  album: SearchNewAlbumData;
+  artists: Artist[];
+  disc_number: number;
+  duration_ms: number;
+  id: string;
   name: string;
-  popularity?: number;
-  track_number?: number;
+  popularity: number;
+  track_number: number;
   type: string;
+  uri: string;
 }
 
-interface ExternalUrls {
-  spotify: string;
-}
-interface Market {
-  available_markets: string[];
-}
-export type { Image, TrackData, ArtistData, AlbumData, RequestToken };
+export type {
+  Image,
+  RequestToken,
+  SearchKeywordTrackData,
+  SearchKpopArtistData,
+  SearchNewAlbumData,
+  NewReleaseAlbumData,
+};

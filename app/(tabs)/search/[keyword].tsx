@@ -1,7 +1,8 @@
 import getAceessToken from '@/api/getAccessToken';
 import getSearch from '@/api/getSearch';
+import Artist from '@/components/Artist';
 import Track from '@/components/Track';
-import { TrackData } from '@/types/types';
+import { SearchKeywordTrackData } from '@/types/types';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, Text, View } from 'react-native';
@@ -11,7 +12,7 @@ const clientSecret = 'cc04d4fbfb224787985ece68c7a964c9';
 
 export default function Result() {
   const { keyword } = useLocalSearchParams();
-  const [tracks, setTracks] = useState<TrackData[]>([]);
+  const [tracks, setTracks] = useState<SearchKeywordTrackData[]>([]);
   const [accessToken, setAccessToken] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +30,10 @@ export default function Result() {
       setIsLoading(true);
       if (accessToken) {
         try {
-          const searchTrackData = await getSearch(accessToken, keyword);
+          const searchTrackData = await getSearch(
+            accessToken,
+            keyword as string
+          );
           setTracks(searchTrackData);
         } catch (error) {
           console.error(error);
@@ -42,9 +46,10 @@ export default function Result() {
     };
 
     loadData();
-  }, [keyword]);
+  }, [keyword, accessToken]);
 
   console.log(tracks);
+  console.log('keyword', keyword);
 
   return (
     <SafeAreaView>
