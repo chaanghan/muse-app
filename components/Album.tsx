@@ -1,8 +1,8 @@
 import { colors } from '@/constants/colors';
-import { AlbumData } from '@/types/types';
+import { NewReleaseAlbumData } from '@/types/types';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
-export default function Album({ name, images, artists }: AlbumData) {
+export default function Album({ name, images, artists }: NewReleaseAlbumData) {
   return (
     <Pressable style={styles.container}>
       <Image source={{ uri: images[2].url }} style={styles.albumImage} />

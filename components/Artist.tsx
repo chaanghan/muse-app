@@ -1,7 +1,7 @@
-import { ArtistData } from '@/types/types';
+import { SearchKpopArtistData } from '@/types/types';
 import { Image, Pressable, StyleSheet, Text } from 'react-native';
 
-export default function Artist({ name, images }: ArtistData) {
+export default function Artist({ name, images }: SearchKpopArtistData) {
   return (
     <Pressable style={styles.container}>
       <Image source={{ uri: images[2].url }} style={styles.artistImage} />
