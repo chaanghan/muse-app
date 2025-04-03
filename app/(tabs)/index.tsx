@@ -20,9 +20,6 @@ import Artist from '@/components/Artist';
 import Divider from '@/components/Divider';
 import getNewAddedAlbums from '@/api/getNewAddedAlbums';
 
-const clientId = 'b54da5a5b1c0451fba594d39b1d534a7';
-const clientSecret = 'cc04d4fbfb224787985ece68c7a964c9';
-
 export default function HomeScreen() {
   const [accessToken, setAccessToken] = useState('');
   const [isloading, setIsLoading] = useState(true);
@@ -36,7 +33,10 @@ export default function HomeScreen() {
 
   useEffect(() => {
     const fetchAccessToken = async () => {
-      const { access_token } = await getAceessToken(clientId, clientSecret); // 토큰을 요청해서 가져옴
+      const { access_token } = await getAceessToken(
+        process.env.EXPO_PUBLIC_CLIENT_ID as string,
+        process.env.EXPO_PUBLIC_CLIENT_SECRET as string
+      ); // 토큰을 요청해서 가져옴
       setAccessToken(access_token); // 토큰 저장
     };
 

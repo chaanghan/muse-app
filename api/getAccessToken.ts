@@ -7,7 +7,7 @@ async function getAceessToken(
 ): Promise<RequestToken> {
   try {
     const response = await axios({
-      url: `https://accounts.spotify.com/api/token`,
+      url: `${process.env.EXPO_PUBLIC_SPOTIFY_AUTH_URL}/api/token`,
       method: 'post',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

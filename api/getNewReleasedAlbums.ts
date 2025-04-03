@@ -7,7 +7,7 @@ async function getNewReleasedAlbums(accessToken: string) {
   }
   try {
     const data = await axios({
-      url: 'https://api.spotify.com/v1/browse/new-releases?limit=10',
+      url: `${process.env.EXPO_PUBLIC_SPOTIFY_BASE_URL}/browse/new-releases?limit=10`,
       method: 'get',
       headers: {
         Authorization: `Bearer ${accessToken}`,

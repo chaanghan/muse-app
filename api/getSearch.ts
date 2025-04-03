@@ -7,7 +7,7 @@ async function getSearch(accessToken: string, query: string) {
   }
   try {
     const data = await axios({
-      url: `https://api.spotify.com/v1/search?q=${query}&type=track&limit=20`,
+      url: `${process.env.EXPO_PUBLIC_SPOTIFY_BASE_URL}/search?q=${query}&type=track&limit=20`,
       method: 'get',
       headers: {
         Authorization: `Bearer ${accessToken}`,
