@@ -19,6 +19,7 @@ import Album from '@/components/Album';
 import Artist from '@/components/Artist';
 import Divider from '@/components/Divider';
 import getNewAddedAlbums from '@/api/getNewAddedAlbums';
+import Loading from '@/components/Loading';
 
 export default function HomeScreen() {
   const [accessToken, setAccessToken] = useState('');
@@ -70,6 +71,9 @@ export default function HomeScreen() {
 
   console.log(accessToken);
 
+  if (isloading || !accessToken) {
+    return <Loading />;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
