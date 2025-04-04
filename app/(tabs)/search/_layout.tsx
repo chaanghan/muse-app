@@ -15,9 +15,15 @@ export default function SearchLayout() {
         }}
       />
       <Stack.Screen
-        name="result"
+        name="[keyword]"
         options={{
           title: '검색 결과',
+        }}
+      />{' '}
+      <Stack.Screen
+        name="kpop-track"
+        options={{
+          title: 'kpop 트랙',
         }}
       />
     </Stack>

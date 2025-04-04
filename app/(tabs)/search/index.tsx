@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, SafeAreaView, TextInput, View } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TextInput,
+  View,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
 import Octicons from '@expo/vector-icons/Octicons';
 import { colors } from '@/constants/colors';
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
+import GenreButton from '@/components/GenreButton';
 
 function SearchScreen() {
   const [keyword, setKeyword] = useState('');
@@ -23,7 +32,7 @@ function SearchScreen() {
   console.log(keyword);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View
         style={[styles.inputContainer, isFocused && styles.inputFocusContainer]}
       >
@@ -39,10 +48,34 @@ function SearchScreen() {
           onSubmitEditing={onSubmit}
         />
       </View>
+
+      <View style={styles.subTitleContainer}>
+        <Text style={styles.subTitleText}>둘러보기</Text>
+      </View>
+      <View style={styles.genreContainer}>
+        <View style={styles.genreRow}>
+          <TouchableOpacity
+            style={[styles.genreButton, styles.firstButton]}
+            onPress={() => router.push('/(tabs)/search/kpop-track')}
+          >
+            <Text>Pop</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.genreButton, styles.secondButton]}
+            onPress={() => router.push('/(tabs)/search/kpop-track')}
+          >
+            <Text>Pop</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 12,
+  },
+
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -50,7 +83,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.GRAY_200,
     borderRadius: 50,
-    marginHorizontal: 12,
   },
   icon: {
     marginHorizontal: 15,
@@ -65,5 +97,42 @@ const styles = StyleSheet.create({
     borderColor: colors.GREEN_300,
     backgroundColor: colors.GRAY_100,
   },
+  subTitleContainer: {
+    marginTop: 20,
+  },
+  subTitleText: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  genreContainer: {
+    display: 'flex',
+    gap: 10,
+    marginVertical: 20,
+  },
+  genreRow: {
+    flexDirection: 'row',
+  },
+
+  genreButton: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    flex: 1,
+    backgroundColor: 'gray',
+    paddingVertical: 30,
+    borderRadius: 5,
+  },
+  genreButtonText: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  firstButton: {
+    marginRight: 10,
+  },
+  secondButton: {},
+  thirdButton: {
+    marginRight: 10,
+  },
+  fourthButton: {},
 });
 export default SearchScreen;

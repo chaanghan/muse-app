@@ -48,9 +48,6 @@ export default function Result() {
     loadData();
   }, [keyword, accessToken]);
 
-  console.log(tracks);
-  console.log('keyword', keyword);
-
   return (
     <SafeAreaView>
       <FlatList

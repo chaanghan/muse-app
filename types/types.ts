@@ -51,6 +51,8 @@ interface SearchKeywordTrackData {
   uri: string;
 }
 
+interface SearchGenreTrackData extends SearchKeywordTrackData {}
+
 export type {
   Image,
   RequestToken,
@@ -58,4 +60,5 @@ export type {
   SearchKpopArtistData,
   SearchNewAlbumData,
   NewReleaseAlbumData,
+  SearchGenreTrackData,
 };

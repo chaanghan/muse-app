@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import { SearchNewAlbumData } from '@/types/types';
+import { SearchGenreTrackData } from '@/types/types';
 import {
   Dimensions,
   Image,
@@ -9,39 +9,37 @@ import {
   View,
 } from 'react-native';
 
-export default function Track({
+export default function TrackOfKpop({
+  album,
   artists,
   id,
-  images,
   name,
-}: SearchNewAlbumData) {
+}: SearchGenreTrackData) {
   return (
     <Pressable style={styles.container}>
-      <Image source={{ uri: images[2].url }} style={styles.albumImage} />
+      <Image source={{ uri: album?.images[2].url }} style={styles.albumImage} />
       <View>
         <Text ellipsizeMode="tail" numberOfLines={1} style={styles.albumName}>
           {name}
         </Text>
-        <Text style={styles.artistName}>Song {artists[0].name}</Text>
+        <Text style={styles.artistName}>{artists[0].name}</Text>
       </View>
     </Pressable>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     gap: 10,
     marginHorizontal: 12,
-    marginBottom: 10,
-    alignItems: 'center',
+    marginBottom: 12,
   },
   albumImage: {
-    width: 50,
-    height: 50,
+    width: 170,
+    height: 170,
     borderRadius: 5,
   },
   albumName: {
-    width: Dimensions.get('window').width / 0.8,
+    width: 140,
     fontSize: 16,
   },
   artistName: {
