@@ -1,0 +1,57 @@
+import { PlaylistData } from '@/types/types';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+export default function Playlist({
+  id,
+  imageUrl,
+  title,
+  contents,
+}: PlaylistData) {
+  return (
+    <View style={styles.container}>
+      {imageUrl ? (
+        <Image style={styles.image} />
+      ) : (
+        <View style={styles.icon}>
+          <Ionicons name="musical-notes" size={70} color="black" />
+        </View>
+      )}
+
+      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.title}>
+        {title}
+      </Text>
+      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.author}>
+        홍길동
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    width: 110,
+  },
+  image: {
+    backgroundColor: '#DCDCDC',
+    borderRadius: 5,
+  },
+  icon: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 110,
+    height: 110,
+    borderRadius: 5,
+    backgroundColor: '#DCDCDC',
+  },
+  title: {
+    marginVertical: 5,
+    fontWeight: '600',
+  },
+  author: {
+    color: '#747474',
+    fontWeight: '600',
+  },
+});

@@ -2,6 +2,13 @@ interface RequestToken {
   access_token: string;
 }
 
+interface PlaylistData {
+  id: number;
+  title: string;
+  imageUrl: string;
+  contents?: string[];
+}
+
 interface Image {
   width: number;
   height: number;
@@ -21,6 +28,7 @@ interface SearchKpopArtistData {
 }
 interface SearchNewAlbumData {
   album_type: string;
+  artists: Artist[];
   total_tracks: number;
   id: string;
   images: Image[];
@@ -29,7 +37,6 @@ interface SearchNewAlbumData {
   release_date_precision: string;
   type: string;
   uri: string;
-  artists: Artist[];
 }
 interface NewReleaseAlbumData extends SearchNewAlbumData {}
 
@@ -61,4 +68,5 @@ export type {
   SearchNewAlbumData,
   NewReleaseAlbumData,
   SearchGenreTrackData,
+  PlaylistData,
 };
