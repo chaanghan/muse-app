@@ -1,6 +1,7 @@
 import { PlaylistData } from '@/types/types';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { colors } from '@/constants/colors';
 
 export default function Playlist({
   id,
@@ -14,7 +15,7 @@ export default function Playlist({
         <Image style={styles.image} />
       ) : (
         <View style={styles.icon}>
-          <Ionicons name="musical-notes" size={70} color="black" />
+          <Ionicons name="musical-notes" size={70} color={colors.BLACK} />
         </View>
       )}
 
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     width: 110,
   },
   image: {
-    backgroundColor: '#DCDCDC',
+    backgroundColor: colors.GRAY_200,
     borderRadius: 5,
   },
   icon: {
@@ -44,14 +45,14 @@ const styles = StyleSheet.create({
     width: 110,
     height: 110,
     borderRadius: 5,
-    backgroundColor: '#DCDCDC',
+    backgroundColor: colors.GRAY_200,
   },
   title: {
     marginVertical: 5,
     fontWeight: '600',
   },
   author: {
-    color: '#747474',
+    color: colors.GRAY_700,
     fontWeight: '600',
   },
 });
