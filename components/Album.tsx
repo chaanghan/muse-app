@@ -28,9 +28,11 @@ const styles = StyleSheet.create({
   albumName: {
     width: 140,
     fontSize: 16,
+    fontWeight: '600',
   },
   artistName: {
     color: colors.GRAY,
     fontSize: 12,
+    fontWeight: '600',
   },
 });

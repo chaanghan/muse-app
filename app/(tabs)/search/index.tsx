@@ -5,13 +5,11 @@ import {
   SafeAreaView,
   TextInput,
   View,
-  Button,
   TouchableOpacity,
 } from 'react-native';
 import Octicons from '@expo/vector-icons/Octicons';
 import { colors } from '@/constants/colors';
-import { Link, router } from 'expo-router';
-import GenreButton from '@/components/GenreButton';
+import { router } from 'expo-router';
 
 function SearchScreen() {
   const [keyword, setKeyword] = useState('');
@@ -58,13 +56,13 @@ function SearchScreen() {
             style={[styles.genreButton, styles.firstButton]}
             onPress={() => router.push('/(tabs)/search/kpop-track')}
           >
-            <Text>Pop</Text>
+            <Text style={styles.genreText}>Pop</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.genreButton, styles.secondButton]}
             onPress={() => router.push('/(tabs)/search/kpop-track')}
           >
-            <Text>Pop</Text>
+            <Text style={styles.genreText}>Pop</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -134,5 +132,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   fourthButton: {},
+  genreText: {
+    fontWeight: '600',
+  },
 });
 export default SearchScreen;

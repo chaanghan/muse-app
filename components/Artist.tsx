@@ -29,5 +29,6 @@ const styles = StyleSheet.create({
   artistName: {
     fontSize: 16,
     textAlign: 'center',
+    fontWeight: '600',
   },
 });

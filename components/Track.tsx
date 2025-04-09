@@ -22,7 +22,7 @@ export default function Track({
         <Text ellipsizeMode="tail" numberOfLines={1} style={styles.albumName}>
           {name}
         </Text>
-        <Text style={styles.artistName}>Song {artists[0].name}</Text>
+        <Text style={styles.artistName}>{artists[0].name}</Text>
       </View>
     </Pressable>
   );
@@ -43,9 +43,11 @@ const styles = StyleSheet.create({
   albumName: {
     width: Dimensions.get('window').width / 0.8,
     fontSize: 16,
+    fontWeight: '600',
   },
   artistName: {
     color: colors.GRAY,
     fontSize: 12,
+    fontWeight: '600',
   },
 });
