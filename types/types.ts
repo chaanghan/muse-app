@@ -26,6 +26,16 @@ interface SearchKpopArtistData {
   type: string;
   uri: string;
 }
+interface ArtistData {
+  followers: Followers;
+  id: string;
+  images: Image[];
+  name: string;
+  popularity: number;
+  type: string;
+  uri: string;
+  genres: string[];
+}
 interface SearchNewAlbumData {
   album_type: string;
   artists: Artist[];
@@ -57,6 +67,8 @@ interface SearchKeywordTrackData {
   type: string;
   uri: string;
 }
+type TrackOfAlbum = Omit<SearchKeywordTrackData, 'album'>;
+type TracksOfAlbum = Omit<SearchKeywordTrackData, 'album'>[];
 
 interface SearchGenreTrackData extends SearchKeywordTrackData {}
 
@@ -69,4 +81,7 @@ export type {
   NewReleaseAlbumData,
   SearchGenreTrackData,
   PlaylistData,
+  ArtistData,
+  TracksOfAlbum,
+  TrackOfAlbum,
 };

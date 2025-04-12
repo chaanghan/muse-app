@@ -1,0 +1,174 @@
+import {
+  Image,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useEffect, useState } from 'react';
+import getAceessToken from '@/api/getAccessToken';
+import getArtist from '@/api/getArtist';
+import { ArtistData, TrackOfAlbum, TracksOfAlbum } from '@/types/types';
+import Loading from '@/components/Loading';
+import getAlbumTracks from '@/api/getAlbumTracks';
+import Entypo from '@expo/vector-icons/Entypo';
+
+export default function AlbumDetail() {
+  const [accessToken, setAccessToken] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [artistInfo, setArtistInfo] = useState<ArtistData | null>(null);
+  const [tracksOfAlbum, setTracksOfAlbum] = useState<TracksOfAlbum | []>([]);
+  const {
+    id: albumId,
+    name: albumName,
+    images,
+    artists,
+    release_date,
+  } = useLocalSearchParams();
+  const insets = useSafeAreaInsets();
+  const artistsData =
+    typeof artists === 'string' ? JSON.parse(artists) : artists;
+  const imagesData = typeof images === 'string' ? JSON.parse(images) : images;
+
+  const { id: artistId, name: artistName } = artistsData[0];
+
+  console.log(artistsData);
+  console.log(imagesData);
+  console.log(albumId);
+
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      const { access_token } = await getAceessToken(
+        process.env.EXPO_PUBLIC_CLIENT_ID as string,
+        process.env.EXPO_PUBLIC_CLIENT_SECRET as string
+      ); // 토큰을 요청해서 가져옴
+      setAccessToken(access_token); // 토큰 저장
+    };
+
+    fetchAccessToken();
+  }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      setIsLoading(true);
+      if (accessToken) {
+        try {
+          const artistData = await getArtist(accessToken, artistId);
+          const trackData = await getAlbumTracks(
+            accessToken,
+            albumId as string
+          );
+          setArtistInfo(artistData);
+          setTracksOfAlbum(trackData);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
+  }, [accessToken]);
+
+  if (!accessToken || isLoading) {
+    return <Loading />;
+  }
+  console.log('artistInfo', artistInfo);
+
+  return (
+    <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
+      <Pressable onPress={() => router.back()} style={styles.backButton}>
+        <Ionicons name="chevron-back" size={24} color="black" />
+      </Pressable>
+      <View style={styles.albumImageContainer}>
+        <Image source={{ uri: imagesData[0].url }} style={styles.albumImage} />
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.albumName}>{albumName}</Text>
+        <View style={styles.artistContainer}>
+          <Image
+            source={{ uri: artistInfo?.images[0].url }}
+            style={styles.artistImage}
+          />
+          <Text style={styles.artistName}>{artistName}</Text>
+        </View>
+        <Text>{release_date.slice(0, 4)}</Text>
+      </View>
+      <View style={styles.tracksContainer}>
+        <Text style={styles.tracksTitle}>Songs</Text>
+        <Text style={styles.tracks}>
+          {tracksOfAlbum
+            .map((track) => track.name)
+            .map((track, index) =>
+              index === track.length - 1 ? (
+                <Text>{track}</Text>
+              ) : (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text>{track}</Text>
+                  <Entypo name="dot-single" size={20} color="black" />
+                </View>
+              )
+            )}
+        </Text>
+      </View>
+    </SafeAreaView>
+  );
+}
+const styles = StyleSheet.create({
+  container: {},
+  backButton: {
+    paddingLeft: 10,
+  },
+  albumImageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  albumImage: {
+    width: 250,
+    height: 250,
+  },
+  infoContainer: {
+    paddingTop: 15,
+    paddingHorizontal: 12,
+    gap: 10,
+  },
+  albumName: {
+    fontSize: 28,
+    fontWeight: '600',
+  },
+  artistContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  artistImage: {
+    width: 30,
+    height: 30,
+    borderRadius: 30,
+  },
+  artistName: {
+    fontWeight: '600',
+  },
+  tracksContainer: {
+    paddingHorizontal: 12,
+    paddingTop: 15,
+  },
+  tracksTitle: {
+    fontWeight: '600',
+  },
+  tracks: {
+    flexDirection: 'row',
+  },
+});
