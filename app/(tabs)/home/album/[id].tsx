@@ -12,10 +12,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import getAceessToken from '@/api/getAccessToken';
 import getArtist from '@/api/getArtist';
-import { ArtistData, TrackOfAlbum, TracksOfAlbum } from '@/types/types';
+import { ArtistData, TracksOfAlbum } from '@/types/types';
 import Loading from '@/components/Loading';
 import getAlbumTracks from '@/api/getAlbumTracks';
 import Entypo from '@expo/vector-icons/Entypo';
+import { colors } from '@/constants/colors';
 
 export default function AlbumDetail() {
   const [accessToken, setAccessToken] = useState('');
@@ -85,7 +86,7 @@ export default function AlbumDetail() {
   return (
     <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
       <Pressable onPress={() => router.back()} style={styles.backButton}>
-        <Ionicons name="chevron-back" size={24} color="black" />
+        <Ionicons name="chevron-back" size={24} color={colors.GRAY_800} />
       </Pressable>
       <View style={styles.albumImageContainer}>
         <Image source={{ uri: imagesData[0].url }} style={styles.albumImage} />
@@ -99,7 +100,7 @@ export default function AlbumDetail() {
           />
           <Text style={styles.artistName}>{artistName}</Text>
         </View>
-        <Text>{release_date.slice(0, 4)}</Text>
+        <Text style={styles.releaseDateYear}>{release_date.slice(0, 4)}</Text>
       </View>
       <View style={styles.tracksContainer}>
         <Text style={styles.tracksTitle}>Songs</Text>
@@ -107,8 +108,12 @@ export default function AlbumDetail() {
           {tracksOfAlbum
             .map((track) => track.name)
             .map((track, index) =>
-              index === track.length - 1 ? (
-                <Text>{track}</Text>
+              tracksOfAlbum.length === 1 ? (
+                <Text style={styles.trackText}>{track}</Text>
+              ) : index === tracksOfAlbum.length - 1 ? (
+                <View style={{ alignItems: 'center' }}>
+                  <Text style={styles.trackText}>{track}</Text>
+                </View>
               ) : (
                 <View
                   style={{
@@ -116,12 +121,30 @@ export default function AlbumDetail() {
                     alignItems: 'center',
                   }}
                 >
-                  <Text>{track}</Text>
+                  <Text style={styles.trackText}>{track}</Text>
                   <Entypo name="dot-single" size={20} color="black" />
                 </View>
               )
             )}
         </Text>
+        <View style={styles.profileContainer}>
+          <Text style={styles.releaseDate}>{`${release_date.slice(
+            0,
+            4
+          )}년 ${release_date.slice(5, 7)}월 ${release_date.slice(
+            8,
+            10
+          )}일`}</Text>
+          <View style={[styles.artistContainer, styles.profile]}>
+            <Image
+              source={{ uri: artistInfo?.images[0].url }}
+              style={[styles.artistImage, styles.profileImage]}
+            />
+            <Text style={[styles.artistName, styles.profileName]}>
+              {artistName}
+            </Text>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -161,14 +184,40 @@ const styles = StyleSheet.create({
   artistName: {
     fontWeight: '600',
   },
+  releaseDateYear: {
+    color: colors.GRAY_800,
+  },
   tracksContainer: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 15,
     paddingTop: 15,
   },
   tracksTitle: {
     fontWeight: '600',
   },
   tracks: {
+    paddingTop: 5,
     flexDirection: 'row',
+  },
+  trackText: {
+    color: colors.GRAY_800,
+  },
+  profileContainer: {
+    paddingTop: 20,
+  },
+  releaseDate: {
+    paddingBottom: 5,
+    fontWeight: '600',
+  },
+  profile: {
+    paddingTop: 5,
+    gap: 12,
+  },
+  profileImage: {
+    width: 50,
+    height: 50,
+  },
+  profileName: {
+    fontSize: 18,
+    fontWeight: '500',
   },
 });
