@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import { NewReleaseAlbumData } from '@/types/types';
+import { NewReleaseAlbum } from '@/types/types';
 import { router } from 'expo-router';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -9,7 +9,7 @@ export default function Album({
   images,
   artists,
   release_date,
-}: NewReleaseAlbumData) {
+}: NewReleaseAlbum) {
   return (
     <Pressable
       style={styles.container}

@@ -8,11 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {
-  NewReleaseAlbumData,
-  SearchKpopArtistData,
-  SearchNewAlbumData,
-} from '@/types/types';
+import { NewReleaseAlbum, AlbumData, ArtistData } from '@/types/types';
 import getNewReleasedAlbums from '@/api/getNewReleasedAlbums';
 import getPopularArtists from '@/api/getPopularArtists';
 import Album from '@/components/Album';
@@ -24,13 +20,9 @@ import Loading from '@/components/Loading';
 export default function HomeScreen() {
   const [accessToken, setAccessToken] = useState('');
   const [isloading, setIsLoading] = useState(true);
-  const [newAlbums, setNewAlbums] = useState<NewReleaseAlbumData[]>([]);
-  const [popularArtists, setPopularArtists] = useState<SearchKpopArtistData[]>(
-    []
-  );
-  const [newAddedAlbums, setNewAddedAlbums] = useState<SearchNewAlbumData[]>(
-    []
-  );
+  const [newAlbums, setNewAlbums] = useState<NewReleaseAlbum[]>([]);
+  const [popularArtists, setPopularArtists] = useState<ArtistData[]>([]);
+  const [newAddedAlbums, setNewAddedAlbums] = useState<AlbumData[]>([]);
 
   useEffect(() => {
     const fetchAccessToken = async () => {

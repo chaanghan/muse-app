@@ -12,7 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import getAceessToken from '@/api/getAccessToken';
 import getArtist from '@/api/getArtist';
-import { ArtistData, TracksOfAlbum } from '@/types/types';
+import { ArtistData, TrackOfAlbum } from '@/types/types';
 import Loading from '@/components/Loading';
 import getAlbumTracks from '@/api/getAlbumTracks';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -22,7 +22,7 @@ export default function AlbumDetail() {
   const [accessToken, setAccessToken] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [artistInfo, setArtistInfo] = useState<ArtistData | null>(null);
-  const [tracksOfAlbum, setTracksOfAlbum] = useState<TracksOfAlbum | []>([]);
+  const [tracksOfAlbum, setTracksOfAlbum] = useState<TrackOfAlbum[] | []>([]);
   const {
     id: albumId,
     name: albumName,
@@ -111,14 +111,11 @@ export default function AlbumDetail() {
               tracksOfAlbum.length === 1 ? (
                 <Text style={styles.trackText}>{track}</Text>
               ) : index === tracksOfAlbum.length - 1 ? (
-                <View style={{ alignItems: 'center' }}>
-                  <Text style={styles.trackText}>{track}</Text>
-                </View>
+                <Text style={styles.trackText}>{track}</Text>
               ) : (
                 <View
                   style={{
                     flexDirection: 'row',
-                    alignItems: 'center',
                   }}
                 >
                   <Text style={styles.trackText}>{track}</Text>

@@ -17,71 +17,63 @@ interface Image {
 interface Followers {
   total: number;
 }
-interface SearchKpopArtistData {
-  followers: Followers;
+type AvailableMarket = string[];
+
+// 아티스트
+interface Artist {
+  href?: string;
   id: string;
-  images: Image[];
   name: string;
-  popularity: number;
   type: string;
-  uri: string;
+  uri?: string;
 }
-interface ArtistData {
+interface ArtistData extends Artist {
   followers: Followers;
-  id: string;
-  images: Image[];
-  name: string;
-  popularity: number;
-  type: string;
-  uri: string;
   genres: string[];
+  images: Image[];
+  popularity: number;
 }
-interface SearchNewAlbumData {
+
+// 앨범
+interface AlbumData {
   album_type: string;
   artists: Artist[];
-  total_tracks: number;
+  available_markets: AvailableMarket;
+  href?: string;
   id: string;
   images: Image[];
   name: string;
   release_date: string;
   release_date_precision: string;
+  total_tracks: number;
   type: string;
   uri: string;
 }
-interface NewReleaseAlbumData extends SearchNewAlbumData {}
+interface NewReleaseAlbum extends AlbumData {}
 
-interface Artist {
-  id: string;
-  name: string;
-  type: string;
-}
-interface SearchKeywordTrackData {
-  album: SearchNewAlbumData;
+// 트랙
+interface TrackData {
+  album: AlbumData;
   artists: Artist[];
+  available_markets: AvailableMarket;
   disc_number: number;
   duration_ms: number;
   id: string;
+  is_playable?: boolean;
   name: string;
   popularity: number;
   track_number: number;
   type: string;
   uri: string;
 }
-type TrackOfAlbum = Omit<SearchKeywordTrackData, 'album'>;
-type TracksOfAlbum = Omit<SearchKeywordTrackData, 'album'>[];
-
-interface SearchGenreTrackData extends SearchKeywordTrackData {}
+type TrackOfAlbum = Omit<TrackData, 'album'>;
 
 export type {
   Image,
   RequestToken,
-  SearchKeywordTrackData,
-  SearchKpopArtistData,
-  SearchNewAlbumData,
-  NewReleaseAlbumData,
-  SearchGenreTrackData,
-  PlaylistData,
+  TrackData,
+  AlbumData,
+  NewReleaseAlbum,
   ArtistData,
-  TracksOfAlbum,
   TrackOfAlbum,
 };
