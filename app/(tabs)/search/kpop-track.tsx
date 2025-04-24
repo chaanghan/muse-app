@@ -1,30 +1,20 @@
-import getAceessToken from '@/api/getAccessToken';
+import getAccessToken from '@/api/getAccessToken';
 import getKpopTracks from '@/api/getKpopTracks';
 import Loading from '@/components/Loading';
 import TrackOfKpop from '@/components/TrackOfKpop';
-import { SearchGenreTrackData } from '@/types/types';
+import { useTokenStore } from '@/store/authStore';
+import { TrackData } from '@/types/types';
 import { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 export default function KpopTrack() {
-  const [accessToken, setAccessToken] = useState('');
   const [isloading, setIsLoading] = useState(true);
-  const [kpopTracks, setKpopTracks] = useState<SearchGenreTrackData[]>([]);
-
-  useEffect(() => {
-    const fetchAccessToken = async () => {
-      const { access_token } = await getAceessToken(
-        process.env.EXPO_PUBLIC_CLIENT_ID as string,
-        process.env.EXPO_PUBLIC_CLIENT_SECRET as string
-      ); // 토큰을 요청해서 가져옴
-      setAccessToken(access_token); // 토큰 저장
-    };
-
-    fetchAccessToken();
-  }, []);
+  const [kpopTracks, setKpopTracks] = useState<TrackData[]>([]);
+  const token = useTokenStore((state) => state.token);
 
   useEffect(() => {
     const loadData = async () => {
+      const accessToken = await getAccessToken();
       setIsLoading(true);
       if (accessToken) {
         try {
@@ -41,9 +31,9 @@ export default function KpopTrack() {
     };
 
     loadData();
-  }, [accessToken]);
+  }, []);
 
-  if (isloading || !accessToken) {
+  if (isloading || !token) {
     return <Loading />;
   }
 

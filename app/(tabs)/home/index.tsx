@@ -1,4 +1,3 @@
-import getAceessToken from '@/api/getAccessToken';
 import { useEffect, useState } from 'react';
 import {
   FlatList,
@@ -8,7 +7,12 @@ import {
   Text,
   View,
 } from 'react-native';
-import { NewReleaseAlbum, AlbumData, ArtistData } from '@/types/types';
+import {
+  NewReleaseAlbum,
+  AlbumData,
+  ArtistData,
+  AccessToken,
+} from '@/types/types';
 import getNewReleasedAlbums from '@/api/getNewReleasedAlbums';
 import getPopularArtists from '@/api/getPopularArtists';
 import Album from '@/components/Album';
@@ -16,35 +20,29 @@ import Artist from '@/components/Artist';
 import Divider from '@/components/Divider';
 import getNewAddedAlbums from '@/api/getNewAddedAlbums';
 import Loading from '@/components/Loading';
+import { useTokenStore } from '@/store/authStore';
+import getAccessToken from '@/api/getAccessToken';
 
 export default function HomeScreen() {
-  const [accessToken, setAccessToken] = useState('');
+  // const [accessToken, setAccessToken] = useState('');
   const [isloading, setIsLoading] = useState(true);
   const [newAlbums, setNewAlbums] = useState<NewReleaseAlbum[]>([]);
   const [popularArtists, setPopularArtists] = useState<ArtistData[]>([]);
   const [newAddedAlbums, setNewAddedAlbums] = useState<AlbumData[]>([]);
-
-  useEffect(() => {
-    const fetchAccessToken = async () => {
-      const { access_token } = await getAceessToken(
-        process.env.EXPO_PUBLIC_CLIENT_ID as string,
-        process.env.EXPO_PUBLIC_CLIENT_SECRET as string
-      ); // 토큰을 요청해서 가져옴
-      setAccessToken(access_token); // 토큰 저장
-    };
-
-    fetchAccessToken();
-  }, []);
+  const token = useTokenStore((state) => state.token);
 
   // 새로운 앨범 요청
   useEffect(() => {
     const loadData = async () => {
+      const accessToken: AccessToken = await getAccessToken();
       setIsLoading(true);
       if (accessToken) {
         try {
-          const albums = await getNewReleasedAlbums(accessToken);
-          const artists = await getPopularArtists(accessToken);
-          const addedAlbums = await getNewAddedAlbums(accessToken);
+          const [albums, artists, addedAlbums] = await Promise.all([
+            getNewReleasedAlbums(accessToken),
+            getPopularArtists(accessToken),
+            getNewAddedAlbums(accessToken),
+          ]);
           setNewAlbums(albums);
           setPopularArtists(artists);
           setNewAddedAlbums(addedAlbums);
@@ -59,11 +57,11 @@ export default function HomeScreen() {
     };
 
     loadData();
-  }, [accessToken]);
+  }, []);
 
-  console.log(accessToken);
+  console.log(token);
 
-  if (isloading || !accessToken) {
+  if (isloading || !token) {
     return <Loading />;
   }
   return (

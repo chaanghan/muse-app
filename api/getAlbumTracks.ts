@@ -1,10 +1,10 @@
-import { TracksOfAlbum } from '@/types/types';
+import { TrackOfAlbum } from '@/types/types';
 import axios from 'axios';
 
 async function getAlbumTracks(
   accessToken: string,
   albumId: string
-): Promise<TracksOfAlbum | []> {
+): Promise<TrackOfAlbum[] | []> {
   if (!accessToken) {
     console.log('access token이 존재하지 않습니다.');
     return [];

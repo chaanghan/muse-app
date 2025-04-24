@@ -12,17 +12,18 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import getAceessToken from '@/api/getAccessToken';
 import getArtist from '@/api/getArtist';
-import { ArtistData, TrackOfAlbum } from '@/types/types';
+import { AccessToken, ArtistData, TrackOfAlbum } from '@/types/types';
 import Loading from '@/components/Loading';
 import getAlbumTracks from '@/api/getAlbumTracks';
 import Entypo from '@expo/vector-icons/Entypo';
 import { colors } from '@/constants/colors';
+import { useTokenStore } from '@/store/authStore';
 
 export default function AlbumDetail() {
-  const [accessToken, setAccessToken] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [artistInfo, setArtistInfo] = useState<ArtistData | null>(null);
   const [tracksOfAlbum, setTracksOfAlbum] = useState<TrackOfAlbum[] | []>([]);
+  const token = useTokenStore((state) => state.token);
   const {
     id: albumId,
     name: albumName,
@@ -42,27 +43,15 @@ export default function AlbumDetail() {
   console.log(albumId);
 
   useEffect(() => {
-    const fetchAccessToken = async () => {
-      const { access_token } = await getAceessToken(
-        process.env.EXPO_PUBLIC_CLIENT_ID as string,
-        process.env.EXPO_PUBLIC_CLIENT_SECRET as string
-      ); // 토큰을 요청해서 가져옴
-      setAccessToken(access_token); // 토큰 저장
-    };
-
-    fetchAccessToken();
-  }, []);
-
-  useEffect(() => {
     const loadData = async () => {
+      const accessToken: AccessToken = await getAceessToken();
       setIsLoading(true);
       if (accessToken) {
         try {
-          const artistData = await getArtist(accessToken, artistId);
-          const trackData = await getAlbumTracks(
-            accessToken,
-            albumId as string
-          );
+          const [artistData, trackData] = await Promise.all([
+            getArtist(accessToken, artistId),
+            getAlbumTracks(accessToken, albumId as string),
+          ]);
           setArtistInfo(artistData);
           setTracksOfAlbum(trackData);
         } catch (error) {
@@ -76,9 +65,9 @@ export default function AlbumDetail() {
     };
 
     loadData();
-  }, [accessToken]);
+  }, []);
 
-  if (!accessToken || isLoading) {
+  if (!token || isLoading) {
     return <Loading />;
   }
   console.log('artistInfo', artistInfo);

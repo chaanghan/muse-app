@@ -1,6 +1,4 @@
-interface RequestToken {
-  access_token: string;
-}
+type AccessToken = string;
 
 interface PlaylistData {
   id: number;
@@ -70,7 +68,7 @@ type TrackOfAlbum = Omit<TrackData, 'album'>;
 
 export type {
   Image,
-  RequestToken,
+  AccessToken,
   TrackData,
   AlbumData,
   NewReleaseAlbum,
