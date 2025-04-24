@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import { SearchGenreTrackData } from '@/types/types';
+import { TrackData } from '@/types/types';
 import {
   Dimensions,
   Image,
@@ -9,12 +9,7 @@ import {
   View,
 } from 'react-native';
 
-export default function TrackOfKpop({
-  album,
-  artists,
-  id,
-  name,
-}: SearchGenreTrackData) {
+export default function TrackOfKpop({ album, artists, id, name }: TrackData) {
   return (
     <Pressable style={styles.container}>
       <Image source={{ uri: album?.images[2].url }} style={styles.albumImage} />

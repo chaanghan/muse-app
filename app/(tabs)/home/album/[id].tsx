@@ -10,7 +10,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
-import getAceessToken from '@/api/getAccessToken';
 import getArtist from '@/api/getArtist';
 import { AccessToken, ArtistData, TrackOfAlbum } from '@/types/types';
 import Loading from '@/components/Loading';
@@ -18,6 +17,7 @@ import getAlbumTracks from '@/api/getAlbumTracks';
 import Entypo from '@expo/vector-icons/Entypo';
 import { colors } from '@/constants/colors';
 import { useTokenStore } from '@/store/authStore';
+import getAccessToken from '@/api/getAccessToken';
 
 export default function AlbumDetail() {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +44,7 @@ export default function AlbumDetail() {
 
   useEffect(() => {
     const loadData = async () => {
-      const accessToken: AccessToken = await getAceessToken();
+      const accessToken: AccessToken = await getAccessToken();
       setIsLoading(true);
       if (accessToken) {
         try {

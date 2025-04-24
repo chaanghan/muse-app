@@ -7,12 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {
-  NewReleaseAlbum,
-  AlbumData,
-  ArtistData,
-  AccessToken,
-} from '@/types/types';
+import { AlbumData, ArtistData, AccessToken } from '@/types/types';
 import getNewReleasedAlbums from '@/api/getNewReleasedAlbums';
 import getPopularArtists from '@/api/getPopularArtists';
 import Album from '@/components/Album';
@@ -26,7 +21,7 @@ import getAccessToken from '@/api/getAccessToken';
 export default function HomeScreen() {
   // const [accessToken, setAccessToken] = useState('');
   const [isloading, setIsLoading] = useState(true);
-  const [newAlbums, setNewAlbums] = useState<NewReleaseAlbum[]>([]);
+  const [newAlbums, setNewAlbums] = useState<AlbumData[]>([]);
   const [popularArtists, setPopularArtists] = useState<ArtistData[]>([]);
   const [newAddedAlbums, setNewAddedAlbums] = useState<AlbumData[]>([]);
   const token = useTokenStore((state) => state.token);
