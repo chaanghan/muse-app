@@ -1,9 +1,12 @@
+import { ArtistData } from '@/types/types';
 import axios from 'axios';
 
-async function getPopularArtists(accessToken: string) {
+async function getPopularArtists(
+  accessToken: string
+): Promise<ArtistData[] | []> {
   if (!accessToken) {
     console.log('access token이 존재하지 않습니다.');
-    return null;
+    return [];
   }
   try {
     const data = await axios({
@@ -17,6 +20,7 @@ async function getPopularArtists(accessToken: string) {
     return data.data.artists.items;
   } catch (error) {
     console.error(`인기 아티스트 요청이 실패했습니다. ${error}`);
+    return [];
   }
 }
 

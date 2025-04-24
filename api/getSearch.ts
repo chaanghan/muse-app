@@ -1,9 +1,13 @@
+import { TrackData } from '@/types/types';
 import axios from 'axios';
 
-async function getSearch(accessToken: string, query: string) {
+async function getSearch(
+  accessToken: string,
+  query: string
+): Promise<TrackData[] | []> {
   if (!accessToken) {
     console.log('access token이 존재하지 않습니다.');
-    return null;
+    return [];
   }
   try {
     const data = await axios({
@@ -18,6 +22,7 @@ async function getSearch(accessToken: string, query: string) {
     return data.data.tracks.items;
   } catch (error) {
     console.error(`트랙 요청이 실패했습니다. ${error}`);
+    return [];
   }
 }
 

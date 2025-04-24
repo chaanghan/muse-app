@@ -47,7 +47,6 @@ interface AlbumData {
   type: string;
   uri: string;
 }
-interface NewReleaseAlbum extends AlbumData {}
 
 // 트랙
 interface TrackData {
@@ -71,7 +70,6 @@ export type {
   AccessToken,
   TrackData,
   AlbumData,
-  NewReleaseAlbum,
   ArtistData,
   TrackOfAlbum,
 };
