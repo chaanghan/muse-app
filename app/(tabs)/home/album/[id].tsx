@@ -98,11 +98,16 @@ export default function AlbumDetail() {
             .map((track) => track.name)
             .map((track, index) =>
               tracksOfAlbum.length === 1 ? (
-                <Text style={styles.trackText}>{track}</Text>
+                <Text key={index} style={styles.trackText}>
+                  {track}
+                </Text>
               ) : index === tracksOfAlbum.length - 1 ? (
-                <Text style={styles.trackText}>{track}</Text>
+                <Text key={index} style={styles.trackText}>
+                  {track}
+                </Text>
               ) : (
                 <View
+                  key={index}
                   style={{
                     flexDirection: 'row',
                   }}
