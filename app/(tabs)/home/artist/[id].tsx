@@ -86,7 +86,7 @@ export default function ArtistDetail() {
           <Text style={styles.title}>Music</Text>
           <View style={styles.trackContents}>
             {trackInfo.slice(0, 4).map((track) => (
-              <Track key={track.id} {...track.album} />
+              <Track key={track.id} {...track} />
             ))}
           </View>
           <View style={styles.musicButtonContainer}>

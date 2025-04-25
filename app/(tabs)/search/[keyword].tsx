@@ -45,7 +45,7 @@ export default function Result() {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={tracks}
-        renderItem={({ item }) => <Track key={item.id} {...item.album} />}
+        renderItem={({ item }) => <Track key={item.id} {...item} />}
       />
     </SafeAreaView>
   );
