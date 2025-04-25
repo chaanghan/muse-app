@@ -3,6 +3,7 @@ import getSearch from '@/api/getSearch';
 import getSearchAlbum from '@/api/getSearchAlbum';
 import Album from '@/components/Album';
 import Loading from '@/components/Loading';
+import Track from '@/components/Track';
 import { colors } from '@/constants/colors';
 import { useTokenStore } from '@/store/authStore';
 import { AccessToken, AlbumData, TrackData } from '@/types/types';
@@ -25,6 +26,7 @@ export default function ArtistDetail() {
   const [isLoading, setIsLoading] = useState(false);
   const [albumInfo, setAlbumInfo] = useState<AlbumData[] | []>([]);
   const [trackInfo, setTrackInfo] = useState<TrackData[] | []>([]);
+  const [isClicked, setIsClicked] = useState(false);
   const token = useTokenStore((state) => state.token);
   const { id: artistId, name, images, followers } = useLocalSearchParams();
   const insets = useSafeAreaInsets();
@@ -60,7 +62,7 @@ export default function ArtistDetail() {
   if (!token || isLoading) {
     return <Loading />;
   }
-  console.log(followers);
+  console.log(trackInfo);
 
   return (
     <View style={[styles.container]}>
@@ -83,11 +85,14 @@ export default function ArtistDetail() {
         <View style={styles.infoMusic}>
           <Text style={styles.title}>Music</Text>
           <View style={styles.trackContents}>
-            {trackInfo.map((track) => (
-              <View>
-                <Text>{track.name}</Text>
-              </View>
+            {trackInfo.slice(0, 4).map((track) => (
+              <Track key={track.id} {...track.album} />
             ))}
+          </View>
+          <View style={styles.musicButtonContainer}>
+            <Pressable style={styles.musicButton}>
+              <Text style={styles.musicButtonText}>See All</Text>
+            </Pressable>
           </View>
         </View>
         <View style={styles.infoArtistAlbums}>
@@ -97,8 +102,7 @@ export default function ArtistDetail() {
             horizontal
             showsHorizontalScrollIndicator={false}
             data={albumInfo}
-            renderItem={({ item }) => <Album {...item} />}
-            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => <Album key={item.id} {...item} />}
           />
         </View>
       </ScrollView>
@@ -129,7 +133,7 @@ const styles = StyleSheet.create({
     height: 400,
   },
   infoContainer: {
-    paddingHorizontal: 12,
+    marginHorizontal: 12,
   },
   infoHeader: {
     paddingTop: 10,
@@ -143,10 +147,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     paddingBottom: 5,
   },
-  trackContents: {
-    backgroundColor: colors.GRAY_100,
-    padding: 5,
-    borderRadius: 5,
+  trackContents: {},
+  musicButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  musicButton: {
+    borderColor: colors.GRAY_300,
+    borderWidth: 1,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+  },
+  musicButtonText: {
+    fontWeight: '600',
   },
   infoArtistAlbums: {
     paddingBottom: 12,
