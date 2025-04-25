@@ -1,32 +1,22 @@
-import getAceessToken from '@/api/getAccessToken';
+import getAccessToken from '@/api/getAccessToken';
 import getSearch from '@/api/getSearch';
-import Artist from '@/components/Artist';
+import Loading from '@/components/Loading';
 import Track from '@/components/Track';
-import { SearchKeywordTrackData } from '@/types/types';
+import { useTokenStore } from '@/store/authStore';
+import { TrackData } from '@/types/types';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, Text, View } from 'react-native';
-
-const clientId = 'b54da5a5b1c0451fba594d39b1d534a7';
-const clientSecret = 'cc04d4fbfb224787985ece68c7a964c9';
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 export default function Result() {
   const { keyword } = useLocalSearchParams();
-  const [tracks, setTracks] = useState<SearchKeywordTrackData[]>([]);
-  const [accessToken, setAccessToken] = useState('');
+  const [tracks, setTracks] = useState<TrackData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchAccessToken = async () => {
-      const { access_token } = await getAceessToken(clientId, clientSecret);
-      setAccessToken(access_token);
-    };
-
-    fetchAccessToken();
-  }, []);
+  const token = useTokenStore((state) => state.token);
 
   useEffect(() => {
     const loadData = async () => {
+      const accessToken = await getAccessToken();
       setIsLoading(true);
       if (accessToken) {
         try {
@@ -46,10 +36,13 @@ export default function Result() {
     };
 
     loadData();
-  }, [keyword, accessToken]);
+  }, [keyword]);
 
+  if (isLoading || !token) {
+    return <Loading />;
+  }
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={tracks}
         renderItem={({ item }) => <Track key={item.id} {...item.album} />}
@@ -57,3 +50,9 @@ export default function Result() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 12,
+  },
+});
