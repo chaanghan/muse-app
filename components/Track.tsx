@@ -1,5 +1,6 @@
 import { colors } from '@/constants/colors';
 import { AlbumData, TrackData } from '@/types/types';
+import { router } from 'expo-router';
 import {
   Dimensions,
   Image,
@@ -9,11 +10,31 @@ import {
   View,
 } from 'react-native';
 
-export default function Track({ album, artists, name }: TrackData) {
+export default function Track({
+  id,
+  name,
+  artists,
+  album,
+  duration_ms,
+}: TrackData) {
   const { images } = album;
 
   return (
-    <Pressable style={styles.container}>
+    <Pressable
+      style={styles.container}
+      onPress={() =>
+        router.push({
+          pathname: '/home/track/[id]',
+          params: {
+            id,
+            name,
+            artists: JSON.stringify(artists),
+            album: JSON.stringify(album),
+            duration_ms,
+          },
+        })
+      }
+    >
       <Image source={{ uri: images[2].url }} style={styles.albumImage} />
       <View>
         <Text ellipsizeMode="tail" numberOfLines={1} style={styles.albumName}>

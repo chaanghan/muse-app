@@ -2,9 +2,15 @@ type AccessToken = string;
 
 interface PlaylistData {
   id: number;
-  title: string;
-  imageUrl: string;
-  contents?: string[];
+  description: string;
+  images: Image[];
+  name: string;
+  tracks: {
+    total: number;
+  };
+  owner: {
+    display_name: string;
+  };
 }
 
 interface Image {
@@ -72,4 +78,5 @@ export type {
   AlbumData,
   ArtistData,
   TrackOfAlbum,
+  PlaylistData,
 };
