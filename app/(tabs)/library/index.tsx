@@ -1,4 +1,4 @@
-import Playlist from '@/components/Playlist';
+import Playlist from '@/components/Library';
 import React, { useState } from 'react';
 import {
   Text,

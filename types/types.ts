@@ -1,5 +1,11 @@
 type AccessToken = string;
 
+interface LibraryData {
+  id: number;
+  title: string;
+  imageUrl: string;
+  contents?: string[];
+}
 interface PlaylistData {
   id: number;
   description: string;
@@ -79,4 +85,5 @@ export type {
   ArtistData,
   TrackOfAlbum,
   PlaylistData,
+  LibraryData,
 };
