@@ -1,29 +1,37 @@
-import { PlaylistData } from '@/types/types';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { colors } from '@/constants/colors';
+import { PlaylistData } from '@/types/types';
+import { useEffect, useState } from 'react';
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function Playlist({
   id,
-  imageUrl,
-  title,
-  contents,
+  description,
+  images,
+  name,
+  tracks,
+  owner,
 }: PlaylistData) {
+  const [color, setColor] = useState(null);
+
+  useEffect(() => {
+    const url = images[0].url;
+  }, []);
+
   return (
     <View style={styles.container}>
-      {imageUrl ? (
-        <Image style={styles.image} />
-      ) : (
-        <View style={styles.icon}>
-          <Ionicons name="musical-notes" size={70} color={colors.BLACK} />
-        </View>
-      )}
-
-      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.title}>
-        {title}
-      </Text>
-      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.author}>
-        홍길동
+      <View style={styles.header}>
+        <Text style={styles.name} numberOfLines={2}>
+          {name}
+        </Text>
+        <Text style={styles.owner}>{owner.display_name}</Text>
+      </View>
+      <View style={styles.imageContainer}>
+        <Image source={{ uri: images[0].url }} style={styles.image} />
+      </View>
+      <Text style={styles.description} numberOfLines={2}>
+        {description}
       </Text>
     </View>
   );
@@ -31,28 +39,28 @@ export default function Playlist({
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    width: 110,
+    width: SCREEN_WIDTH - 24,
+    backgroundColor: colors.GRAY_200,
+    padding: 12,
+    margin: 12,
+    borderRadius: 10,
+    justifyContent: 'space-between',
+    gap: 5,
+  },
+  header: {},
+  name: {
+    fontSize: 20,
+    fontWeight: 600,
+  },
+  owner: {
+    color: colors.GRAY_800,
+  },
+  imageContainer: {
+    alignItems: 'center',
   },
   image: {
-    backgroundColor: colors.GRAY_200,
-    borderRadius: 5,
+    width: 150,
+    height: 150,
   },
-  icon: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 110,
-    height: 110,
-    borderRadius: 5,
-    backgroundColor: colors.GRAY_200,
-  },
-  title: {
-    marginVertical: 5,
-    fontWeight: '600',
-  },
-  author: {
-    color: colors.GRAY_700,
-    fontWeight: '600',
-  },
+  description: {},
 });

@@ -1,15 +1,10 @@
 import getAccessToken from '@/api/getAccessToken';
-import getArtist from '@/api/getArtist';
 import getPlaylist from '@/api/getPlaylist';
 import Loading from '@/components/Loading';
+import Playlist from '@/components/Playlist';
 import { colors } from '@/constants/colors';
 import { useTokenStore } from '@/store/authStore';
-import {
-  AccessToken,
-  AlbumData,
-  ArtistData,
-  PlaylistData,
-} from '@/types/types';
+import { AccessToken, AlbumData, PlaylistData } from '@/types/types';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -17,6 +12,7 @@ import {
   Image,
   Pressable,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -32,7 +28,6 @@ export default function TrackDetail() {
   const token = useTokenStore((state) => state.token);
   const [isLoading, setIsLoading] = useState(false);
   const [playlists, setPlaylists] = useState<PlaylistData[] | []>([]);
-  // const {id, images: playlistImages, } = playlists;
 
   useEffect(() => {
     const loadData = async () => {
@@ -55,8 +50,6 @@ export default function TrackDetail() {
     loadData();
   }, []);
 
-  console.log(playlists);
-
   if (!token || isLoading) {
     return <Loading />;
   }
@@ -77,7 +70,15 @@ export default function TrackDetail() {
         </View>
         <Text style={styles.artistName}>{artistData[0].name}</Text>
       </View>
-      <View></View>
+      <ScrollView
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+      >
+        {playlists.map((playlist) => (
+          <Playlist key={playlist.id} {...playlist} />
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 }
