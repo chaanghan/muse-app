@@ -18,7 +18,9 @@ async function getPlaylist(
       },
     });
 
-    return data.data.playlists.items;
+    return data.data.playlists.items
+      .filter((item: any) => item !== null)
+      .filter((item: any) => item.description !== '');
   } catch (error) {
     console.error(`트랙 요청이 실패했습니다. ${error}`);
     return [];
