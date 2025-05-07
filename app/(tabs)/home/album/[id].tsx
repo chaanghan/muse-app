@@ -2,6 +2,7 @@ import {
   Image,
   Pressable,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -14,13 +15,13 @@ import getArtist from '@/api/getArtist';
 import { AccessToken, ArtistData, TrackOfAlbum } from '@/types/types';
 import Loading from '@/components/Loading';
 import getAlbumTracks from '@/api/getAlbumTracks';
-import Entypo from '@expo/vector-icons/Entypo';
 import { colors } from '@/constants/colors';
 import { useTokenStore } from '@/store/authStore';
 import getAccessToken from '@/api/getAccessToken';
 
 export default function AlbumDetail() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isClick, setIsClick] = useState(false);
   const [artistInfo, setArtistInfo] = useState<ArtistData | null>(null);
   const [tracksOfAlbum, setTracksOfAlbum] = useState<TrackOfAlbum[] | []>([]);
   const token = useTokenStore((state) => state.token);
@@ -38,9 +39,7 @@ export default function AlbumDetail() {
 
   const { id: artistId, name: artistName } = artistsData[0];
 
-  console.log(artistsData);
-  console.log(imagesData);
-  console.log(albumId);
+  console.log(isClick);
 
   useEffect(() => {
     const loadData = async () => {
@@ -74,50 +73,56 @@ export default function AlbumDetail() {
 
   return (
     <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
-      <Pressable onPress={() => router.back()} style={styles.backButton}>
-        <Ionicons name="chevron-back" size={24} color={colors.GRAY_800} />
-      </Pressable>
-      <View style={styles.albumImageContainer}>
-        <Image source={{ uri: imagesData[0].url }} style={styles.albumImage} />
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.albumName}>{albumName}</Text>
-        <View style={styles.artistContainer}>
+      <ScrollView>
+        <Pressable onPress={() => router.back()} style={styles.backButton}>
+          <Ionicons name="chevron-back" size={24} color={colors.GRAY_800} />
+        </Pressable>
+        <View style={styles.albumImageContainer}>
           <Image
-            source={{ uri: artistInfo?.images[0].url }}
-            style={styles.artistImage}
+            source={{ uri: imagesData[0].url }}
+            style={styles.albumImage}
           />
-          <Text style={styles.artistName}>{artistName}</Text>
         </View>
-        <Text style={styles.releaseDateYear}>{release_date.slice(0, 4)}</Text>
-      </View>
-      <View style={styles.tracksContainer}>
-        <Text style={styles.tracksTitle}>Songs</Text>
-        <Text style={styles.tracks}>
-          {tracksOfAlbum
-            .map((track) => track.name)
-            .map((track, index) =>
-              tracksOfAlbum.length === 1 ? (
-                <Text key={index} style={styles.trackText}>
-                  {track}
-                </Text>
-              ) : index === tracksOfAlbum.length - 1 ? (
-                <Text key={index} style={styles.trackText}>
-                  {track}
-                </Text>
-              ) : (
-                <View
-                  key={index}
-                  style={{
-                    flexDirection: 'row',
-                  }}
-                >
-                  <Text style={styles.trackText}>{track}</Text>
-                  <Entypo name="dot-single" size={20} color="black" />
-                </View>
-              )
-            )}
-        </Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.albumName}>{albumName}</Text>
+          <View style={styles.artistContainer}>
+            <Image
+              source={{ uri: artistInfo?.images[0].url }}
+              style={styles.artistImage}
+            />
+            <Text style={styles.artistName}>{artistName}</Text>
+          </View>
+          <Text style={styles.releaseDateYear}>{release_date.slice(0, 4)}</Text>
+        </View>
+        <View style={styles.tracksContainer}>
+          <Text style={styles.tracksTitle}>Songs</Text>
+          <View style={styles.tracks}>
+            {isClick
+              ? tracksOfAlbum
+                  .map((track) => track.name)
+                  .map((track, idx) => (
+                    <Text style={styles.trackText} numberOfLines={1} key={idx}>
+                      {track}
+                    </Text>
+                  ))
+              : tracksOfAlbum
+                  .slice(0, 4)
+                  .map((track) => track.name)
+                  .map((track, idx) => (
+                    <Text style={styles.trackText} numberOfLines={1} key={idx}>
+                      {track}
+                    </Text>
+                  ))}
+          </View>
+          <Pressable
+            style={styles.buttonContainer}
+            onPress={() => setIsClick(!isClick)}
+          >
+            <Text style={styles.buttonText}>
+              {isClick ? '간략히 보기' : '더 보기'}
+            </Text>
+          </Pressable>
+        </View>
         <View style={styles.profileContainer}>
           <Text style={styles.releaseDate}>{`${release_date.slice(
             0,
@@ -136,7 +141,7 @@ export default function AlbumDetail() {
             </Text>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -187,13 +192,21 @@ const styles = StyleSheet.create({
   },
   tracks: {
     paddingTop: 5,
-    flexDirection: 'row',
   },
   trackText: {
     color: colors.GRAY_800,
+    paddingVertical: 2,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
+    fontSize: 14,
   },
   profileContainer: {
     paddingTop: 20,
+    paddingHorizontal: 15,
   },
   releaseDate: {
     paddingBottom: 5,
